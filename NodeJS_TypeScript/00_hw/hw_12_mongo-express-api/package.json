@@ -1,0 +1,19 @@
+{
+  "name": "mongo-express-api",
+  "version": "1.0.0",
+  "description": "Node.js & type script: Домашнее задание 12 (morning)",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongodb": "^6.9.0",
+    "nodemon": "^3.1.6"
+  }
+}

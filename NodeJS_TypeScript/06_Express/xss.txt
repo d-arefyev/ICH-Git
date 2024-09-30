@@ -1,0 +1,8 @@
+https://www.google.com/search
+?q=xss+%D0%B0%D1%82%D0%B0%D0%BA%D0%B0&oq=xss+
+&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQABiABDIKCAYQABiLAxiABDIGCAcQRRg80gEIMjg0MmoxajeoAgiwAgE
+&sourceid=chrome
+&ie=UTF-8
+&script=SELECT * FROM user // XSS SQL Injection HTML Injection
+
+?query=%60"%27><img+src%3Dxxx%3Ax+%5Cx0Aonerror%3Djavascript%3Aalert%281%29>&search=

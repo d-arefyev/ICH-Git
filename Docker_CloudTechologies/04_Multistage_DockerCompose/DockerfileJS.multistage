@@ -1,0 +1,25 @@
+# Этап сборки
+FROM node:18 AS builder
+WORKDIR /app
+
+# Копирование файла package.json и package-lock.json (если есть)
+COPY ./package.json ./package-lock.json* ./
+
+# Установка зависимостей
+RUN npm install
+
+# Копирование исходного кода
+COPY . .
+
+# Финальный этап
+FROM node:18
+WORKDIR /app
+
+# Копирование файлов из стадии сборки
+COPY --from=builder /app /app
+
+# Открытие порта
+EXPOSE 5005
+
+# Команда для запуска приложения
+CMD ["npm", "start"]

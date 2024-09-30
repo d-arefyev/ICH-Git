@@ -1,0 +1,13 @@
+{
+  "name": "task2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js", 
+  "type":"module",
+  "scripts": {
+    "test": "node script.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

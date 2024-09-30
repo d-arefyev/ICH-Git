@@ -1,0 +1,12 @@
+{
+  "name": "hw_02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "chat_app.js",
+  "scripts": {
+    "start": "node chat_app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

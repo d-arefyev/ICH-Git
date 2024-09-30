@@ -1,0 +1,64 @@
+version: '3.8'
+
+# Определение сервисов
+services:
+  # Сервис Nginx
+  web:
+    image: nginx:latest  # Используем официальный образ Nginx
+    ports:
+      - "8080:80"  # Проброс порта 8080 на порт 80 контейнера
+    networks:
+      - mynetwork  # Подключение к сети
+
+  # Сервис Redis
+  redis:
+    image: redis:latest  # Используем официальный образ Redis
+    networks:
+      - mynetwork  # Подключение к сети
+
+  # Сервис MySQL
+  mysql:
+    image: mysql:8.0  # Используем официальный образ MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword  # Пароль для пользователя root
+      MYSQL_DATABASE: mydatabase  # Имя базы данных
+      MYSQL_USER: user  # Пользователь базы данных
+      MYSQL_PASSWORD: userpassword  # Пароль для пользователя базы данных
+    volumes:
+      - mysql_data:/var/lib/mysql  # Хранение данных MySQL в volume
+    networks:
+      - mynetwork  # Подключение к сети
+
+# Определение volume для хранения данных MySQL
+volumes:
+  mysql_data:
+
+# Определение сети
+networks:
+  mynetwork:
+    driver: bridge
+
+
+# Команды: -------------------------------------------------------------------------
+# docker compose -f ./docker-compose.yml up
+
+# Запуск Docker Compose:
+# docker-compose up
+
+# Остановка контейнеров:
+# docker-compose down
+
+# Сбор образов:
+# docker-compose build
+
+# Просмотр логов:
+# docker-compose logs
+
+# Запуск существующих контейнеров:
+# docker-compose start
+
+# Остановка работающих контейнеров:
+# docker-compose stop
+
+# Перезапуск контейнеров:
+# docker-compose restart

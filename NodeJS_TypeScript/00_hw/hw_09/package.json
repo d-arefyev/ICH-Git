@@ -1,0 +1,20 @@
+{
+  "name": "hw_09",
+  "version": "1.0.0",
+  "description": "Node.js & type script: Домашнее задание 9 (morning)",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.20.0"
+  }
+}

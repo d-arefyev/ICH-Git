@@ -1,0 +1,13 @@
+{
+  "name": "hw_03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "task1.js",
+  "type":"module",
+  "scripts": {
+    "start": "node task1.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,69 @@
+Docker & cloud technologies: Домашнее задание 3 (morning)
+
+Создать Dockerfile, для запуска Python-приложения, которое использует библиотеку cowsay для вывода информации о системе. Пришлите готовый dockerfile.
+
+1. Создать директорию для проекта.
+2. Сохранить исходный код приложения в файл app.py.
+3. Создать файл requirements.txt для указания зависимостей проекта и добавить в него cowsay.
+4. Создать файл Dockerfile.
+5. Использовать официальный образ Python в качестве базового (например python:3.9-slim).
+6. Установить зависимости при помощи команды в dockerfile (не забываем скопировать app.py и  requirements.txt  используя COPY).
+RUN pip install --no-cache-dir -r requirements.txt
+7. Использовать команду запуска приложения:
+CMD ["python", "./app.py"]
+
+Код приложения: 
+import cowsay
+import platform
+
+def modern_print(data: dict[str, ...]) -> None:
+    system_info = data.get('system')
+    system_release = data.get('release')
+    system_version = data.get('version')
+    system_node = data.get('node')
+    system_processor = data.get('processor')
+
+    template_message: str = """
+    Hello, Stranger!
+    
+    Here's your info you requested:
+    SYSTEM INFO: {}
+    SYSTEM RELEASE: {}
+    SYSTEM VERSION: {}
+    SYSTEM NODE: {}
+    SYSTEM PROCESSOR: {}
+    """
+    cowsay.beavis(template_message.format(
+        system_info,
+        system_release,
+        system_version,
+        system_node,
+        system_processor
+    ))
+request_data: dict[str, ...] = {
+        "system": platform.system(),
+        "release": platform.release(),
+        "version": platform.version(),
+        "node": platform.node(),
+        "processor": platform.processor(),
+}
+if __name__ == "__main__":
+    modern_print(request_data)
+
+Решение 
+1. Напишите и сохраните исходный код приложения в файл app.py.
+2. Создайте файл requirements.txt и укажите в нём все необходимые зависимости.
+3. Напишите Dockerfile для создания Docker образа с вашим приложением.
+4. Постройте Docker образ с помощью команды docker build.
+5. Запустите контейнер с приложением и убедитесь, что оно работает корректно.
+Dockerfile : 
+FROM python:3.9-slim
+WORKDIR /usr/src/app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY app.py ./
+CMD ["python", "./app.py"]
+
+Сборка : 
+docker build -t python-cowsay-app .
+docker run --rm python-cowsay-app

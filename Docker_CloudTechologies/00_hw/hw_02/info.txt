@@ -1,0 +1,75 @@
+Docker & cloud technologies: Домашнее задание 2 (morning)
+
+Задание 1
+
+1. Запустите контейнер из образа веб-сервера, например, nginx.
+2. Запустите контейнер в режиме, чтобы он продолжал работать длительное время (не останавливался мгновенно).
+3. Войдите в контейнер, используя команду exec, и проверьте наличие  конфигурационного файла веб-сервера (/usr/share/nginx/html/index.html).
+4. В строке <title>Welcome to nginx!</title> конфигурационного файла (/usr/share/nginx/html/index.html) замените Welcome to nginx! на Welcome from dcbc5bbf0564 , где dcbc5bbf0564 - результат выполнения команды hostname.
+5. Скопируйте из контейнера (docker cp) этот конфигурационный файл с исправленной строкой Welcome from dcbc5bbf0564 , где dcbc5bbf0564 - результат выполнения команды hostname и пришлите его.
+
+
+Решение 
+
+docker run -d --name my_webserver nginx
+docker exec -it my_webserver bash
+hostname
+vi /usr/share/nginx/html/index.html
+docker cp my_webserver:/etc/nginx/nginx.conf nginx.conf
+
+
+
+Задание 2
+
+Тест на знание команд Docker
+Укажите, какая команда используется для ….
+
+1.  создания и запуска нового контейнера из Docker образа:
+    1. docker create
+    2. docker run
+    3. docker start
+
+2.  запуска остановленного контейнера.
+    1. docker pause
+    2. docker run
+    3. docker start
+
+3.  принудительного удаления контейнера, даже если он запущен.
+    1. docker rm -f
+    2. docker kill
+    3. docker stop
+
+4.  отображения списка работающих контейнеров.
+    1. docker ps -a
+    2. docker ps
+    3. docker logs
+
+5.  просмотра вывода журналов контейнера.
+    1. docker ps -a
+    2. docker ps
+    3. docker logs
+
+6.  отображения списка процессов, работающих внутри контейнера.
+    1. docker top
+    4. docker logs
+    5. docker logs -f
+
+7.  предоставления подробной информации о контейнере в формате JSON.
+    1. docker top
+    2. docker diff
+    3. docker inspect
+
+8.  присоединения к работающему контейнеру и взаимодействия с ним через его стандартные ввод и вывод.
+    1. docker cp
+    2. docker attach
+    3. docker exec
+
+9.  создания нового Docker образа на основе изменений в контейнере.
+    1. docker commit
+    2. docker exec
+    3. docker export
+
+10. удаления одного или нескольких образов Docker с хостовой системы.
+    1. docker inspect
+    2. docker tag
+    3. docker rmi

@@ -1,0 +1,13 @@
+{
+  "name": "hw_05",
+  "version": "1.0.0",
+  "description": "Algorithms: Домашнее задание 5 (morning)",
+  "main": "readSortedFile.js",
+  "type": "module",
+  "scripts": {
+    "start": "readSortedFile.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

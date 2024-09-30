@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Root page</title>
+</head>
+<body>
+<script>
+
+    "use strict";
+    (async () => {
+
+    let url = 'http://localhost:3000/posts';
+    let response = await fetch(url);
+
+    let posts = await response.json()
+    console.log('posts', posts)
+
+    let div = document.getElementById('posts');
+
+    posts.forEach(p=> {
+        let content = document.createTextNode(`${p.title} | ${p.author} ---> ${p.content}`);
+        div.appendChild(content);
+        div.appendChild(document.createElement("br"));
+    })
+
+    })()
+</script>
+
+<h1>Posts list </h1>
+<div id="posts"></div>
+
+</body>
+</html>
