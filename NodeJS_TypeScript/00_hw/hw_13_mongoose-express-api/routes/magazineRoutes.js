@@ -1,36 +1,39 @@
 import express from 'express';
-import { Magazine } from '../models/Magazine.js';
-import { Publisher } from '../models/Publisher.js';
+import Publisher from '../models/Publisher.js';
+import Magazine from '../models/Magazine.js';
 
 const router = express.Router();
 
-router.post('/create', async (req, res) => {
-  try {
-    const { title, issueNumber, publisher: publisherName } = req.body;
-
-    // Поиск издателя по имени
-    const publisher = await Publisher.findOne({ name: publisherName });
-    if (!publisher) {
-      return res.status(400).send({ message: 'Издатель не найден' });
+// Создание нового издателя
+router.post('/publishers', async (req, res) => {
+    try {
+        const publisher = new Publisher(req.body);
+        await publisher.save();
+        res.status(201).json(publisher);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
-
-    // Создание нового журнала с ID найденного издателя
-    const magazine = new Magazine({ title, issueNumber, publisher: publisher._id });
-    await magazine.save();
-    res.status(201).send(magazine);
-  } catch (error) {
-    res.status(400).send(error);
-  }
 });
 
-// Получение всех журналов с заполнением информации об издателе
-router.get('/', async (req, res) => {
-  try {
-    const magazines = await Magazine.find().populate('publisher');
-    res.status(200).send(magazines);
-  } catch (error) {
-    res.status(500).send(error);
-  }
+// Создание нового журнала
+router.post('/magazines', async (req, res) => {
+    try {
+        const magazine = new Magazine(req.body);
+        await magazine.save();
+        res.status(201).json(magazine);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Получение всех журналов с их издателями
+router.get('/magazines', async (req, res) => {
+    try {
+        const magazines = await Magazine.find().populate('publisher');
+        res.status(200).json(magazines);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
 
 export default router;
