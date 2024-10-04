@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат на Socket.io</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        /* Простой CSS для стилей чата */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #messages li {
+            padding: 8px;
+            background: #f4f4f4;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Чат на Socket.io</h1>
+
+    <!-- Поле ввода и кнопка для отправки сообщений расположены сверху -->
+    <input id="input" autocomplete="off" placeholder="Введите сообщение...">
+    <button id="send">Отправить сообщение</button>
+
+    <!-- Список для отображения сообщений -->
+    <ul id="messages"></ul>
+
+    <script>
+        // Инициализация соединения с сервером
+        const socket = io();
+
+        // Обработка нажатия кнопки "Отправить"
+        document.getElementById('send').onclick = function() {
+            const input = document.getElementById('input');
+            const message = input.value;
+            socket.emit('chat message', message); // Отправляем сообщение на сервер
+            input.value = ''; // Очищаем поле ввода
+        };
+
+        // Получение сообщений от сервера
+        socket.on('chat message', function(msg) {
+            const item = document.createElement('li');
+            item.textContent = msg; // Отображаем сообщение
+            document.getElementById('messages').appendChild(item);
+        });
+    </script>
+</body>
+</html>
