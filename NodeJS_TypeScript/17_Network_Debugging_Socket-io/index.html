@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io</title>
+    <!-- Подключаем Socket.io клиентскую библиотеку -->
+    <script
+      src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+      integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- Поле для ввода текста -->
+    <input id="input" type="text" />
+    <!-- Кнопка для отправки сообщения -->
+    <button id="button">Отправить сообщение</button>
+    <!-- Список для отображения сообщений -->
+    <ul id="messageList">
+      <li>First message</li>
+    </ul>
+
+    <script>
+      // Подключаемся к веб-сокету на сервере
+      const webSocket = io("http://localhost:3000");
+
+      // Получаем ссылки на элементы DOM
+      const input = document.getElementById("input");
+      const button = document.getElementById("button");
+      const messageList = document.getElementById("messageList");
+
+      // Обработчик для получения сообщений от сервера
+      webSocket.on("message", (msg) => {
+        const liMessage = document.createElement("li"); // Создаем новый элемент <li>
+        liMessage.textContent = msg; // Присваиваем текст сообщения
+        messageList.appendChild(liMessage); // Добавляем его в список сообщений
+      });
+
+      // Обработчик для отправки сообщения по нажатию кнопки
+      button.addEventListener("click", () => {
+        const value = input.value; // Получаем значение из поля ввода
+        console.log(value); // Выводим значение в консоль (для отладки)
+        webSocket.emit("message", value); // Отправляем сообщение на сервер
+        input.value = ""; // Очищаем поле ввода после отправки
+      });
+    </script>
+  </body>
+</html>
