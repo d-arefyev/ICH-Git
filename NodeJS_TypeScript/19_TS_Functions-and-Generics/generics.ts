@@ -7,4 +7,4 @@ foo(42);
 foo(true);
 
 // Frontend
-const [state, setState] = useState();
+// const [state, setState] = useState();
