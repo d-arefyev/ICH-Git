@@ -1,0 +1,51 @@
+.balance,
+.balance > form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.balance p {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.balance input {
+  height: 45px;
+  font-size: 1.2rem;
+  padding-left: 10px;
+  padding-right: 10px;
+  outline: none;
+}
+
+.balance button {
+  font-size: 1.2rem;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.primary {
+  background-color: green;
+  color: white;
+  border: none;
+  outline: none;
+  box-shadow: 0px 0.5px 2px black;
+}
+.secondary {
+  background-color: orange;
+  border: none;
+  outline: none;
+  box-shadow: 0px 0.5px 2px black;
+}
+.elephant {
+  margin-top: 10px;
+  align-self: center;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background-image: url("https://img.freepik.com/free-vector/cute-baby-elephant-butterfly-outline-drawing-color_96037-424.jpg?t=st=1728636502~exp=1728640102~hmac=dc3ca37674ce91185ba68f4a817202dd056b5faee1561b7ee3ba013dddcc4c10&w=2000");
+  background-position: center;
+  background-size: cover;
+  border: 1px solid lightgray;
+  outline: none;
+}
