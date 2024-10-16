@@ -1,0 +1,14 @@
+.wrapper {
+  max-width: 420px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
