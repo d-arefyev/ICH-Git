@@ -1,9 +1,10 @@
 import { Schema, model } from "mongoose";
+import { userSchema } from "./User.js";
 
 export const transactionSchema = new Schema({
     type: {
         type: String,
-        enum: ['income', 'exprense'],
+        enum: ['income', 'expense'],
         required: true
     },
     amount: {

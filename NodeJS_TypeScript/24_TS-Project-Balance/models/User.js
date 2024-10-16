@@ -1,8 +1,16 @@
 import { Schema, model } from "mongoose";
 import { transactionSchema } from "./Transaction.js";
 
-const userSchema = new Schema({
+export const userSchema = new Schema({
     idUser: {
+        type: String,
+        required: true
+    },
+    userName: {
+        type: String,
+        required: true
+    },
+    hash: {
         type: String,
         required: true
     },
@@ -13,7 +21,8 @@ const userSchema = new Schema({
     },
     currentBalance: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     },
     transactions: [transactionSchema],
     createAt: {

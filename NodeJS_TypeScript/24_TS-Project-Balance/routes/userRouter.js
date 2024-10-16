@@ -21,7 +21,8 @@ router.post('/create', async (req, res) => {
 router.get('/get-balance/:id', async (req, res) => {
     try {
         const { id } = req.params
-        const user = await User.findById(id)
+        // const user = await User.findById(id)
+        const user = await User.findOne({ idUser: id })
         res.status(200).json({ currentBalance: user.currentBalance })
     } catch (error) {
         res.status(500).json({ message: 'Что то пошло не так' });
