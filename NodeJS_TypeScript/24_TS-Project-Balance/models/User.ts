@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { transactionSchema } from "./Transaction.js";
+import { transactionSchema } from "./Transaction";
 
 export const userSchema = new Schema({
     idUser: {

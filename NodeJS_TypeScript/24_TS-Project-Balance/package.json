@@ -2,11 +2,10 @@
   "name": "project-3-1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon -x ts-node index.ts"
   },
-  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,6 +18,12 @@
     "mongoose": "^8.7.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1"
   }
 }
