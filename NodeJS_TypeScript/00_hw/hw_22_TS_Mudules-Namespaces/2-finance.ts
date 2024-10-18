@@ -1,6 +1,6 @@
 // Пространства имен для финансовых операций --------------------------------
 
-namespace Finance {
+export namespace Finance {
   export class LoanCalculator {
     private principal: number;
     private annualInterestRate: number;
@@ -18,7 +18,7 @@ namespace Finance {
       const numberOfPayments = this.years * 12;
       const monthlyPayment =
         (this.principal * monthlyInterestRate) /
-        (1 - Math.pow(1 + monthlyInterestRate, - numberOfPayments));
+        (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
       return monthlyPayment;
     }
   }

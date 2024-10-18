@@ -1,9 +1,11 @@
 // Вложенные пространства имен для управления пользователями -------------------------------------------------
 
-/// <reference path="3-userManagement.ts" />
+// <reference path="3-userManagement.ts" />
+
+import { UserManagement } from './3-userManagement';
 
 // Создание нового администратора
-const adminUser = new UserManagement.Admin.AdminUser("John Doe", "john.doe@example.com");
+const adminUser = new UserManagement.Admin.AdminUser("Test Test", "test.test@example.com");
 
 // Вывод информации об администраторе
 console.log(adminUser.getInfo());

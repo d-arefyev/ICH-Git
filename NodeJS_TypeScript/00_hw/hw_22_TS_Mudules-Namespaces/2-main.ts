@@ -1,6 +1,8 @@
 // Пространства имен для финансовых операций --------------------------------
 
-/// <reference path="2-finance.ts" />
+// <reference path="2-finance.ts" />
+
+import { Finance } from './2-finance';
 
 // Примерные данные для расчета
 const loanPrincipal = 20000; // Сумма кредита
