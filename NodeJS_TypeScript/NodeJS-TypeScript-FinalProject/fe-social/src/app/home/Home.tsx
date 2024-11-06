@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
+    <div className="">
       <h1 className="text-center my-4">Все Посты</h1>
 
       {loading ? (
@@ -55,6 +55,7 @@ export default function Home() {
           ))}
         </div>
       )}
+      {/* <div className="h-[800px] bg-red-200"></div> */}
     </div>
   );
 }

@@ -3,11 +3,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { $api } from "../api/api"; // Подключение API
-import Input from "../atoms/Input"; // Подключаем компонент Input
-import Button from "../atoms/Button"; // Подключаем компонент Button
+import { $api } from "../api/api";
+import Input from "../atoms/Input";
+import Button from "../atoms/Button";
 
-const User = () => {
+const Profile = () => {
   const [userData, setUserData] = useState<any>(null);
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
@@ -106,4 +106,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Profile;

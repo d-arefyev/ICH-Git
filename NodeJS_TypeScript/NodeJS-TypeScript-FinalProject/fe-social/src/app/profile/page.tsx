@@ -1,7 +1,7 @@
 // src/app/user/page.tsx
-import User from "./User";
+import User from "./Profile";
 
-const UserPage = () => {
+const ProfilePage = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <User />
@@ -9,4 +9,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default ProfilePage;

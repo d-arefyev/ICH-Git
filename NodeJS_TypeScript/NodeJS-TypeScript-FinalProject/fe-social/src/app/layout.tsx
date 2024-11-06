@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import { ReactNode } from "react";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedWrapper from "./components/ProtectedWrapper"; 
 import "./globals.css";
 
 interface RootLayoutProps {
@@ -20,10 +20,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </head>
-      <body>
-        <ProtectedRoute>
+      <body className="flex flex-col min-h-screen w-full">
+        <ProtectedWrapper>
           {children}
-        </ProtectedRoute>
+        </ProtectedWrapper>
       </body>
     </html>
   );

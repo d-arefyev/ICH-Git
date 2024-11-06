@@ -1,27 +1,27 @@
 // src/app/components/ProtectedRoute.tsx
-"use client";
+"use client"; // Это клиентский компонент
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Состояние для загрузки, пока проверяем токен
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); // Проверяем наличие токена в localStorage
     if (!token) {
-      router.push("/login");
+      router.push("/login"); // Перенаправляем на страницу логина, если токена нет
     } else {
-      setIsLoading(false);
+      setIsLoading(false); // Если токен найден, продолжаем рендерить приложение
     }
   }, [router]);
 
   if (isLoading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>; // Пока проверяем токен, показываем сообщение о загрузке
   }
 
-  return <>{children}</>;
+  return <>{children}</>; // Если токен есть, рендерим children (контент)
 };
 
 export default ProtectedRoute;
@@ -30,52 +30,36 @@ export default ProtectedRoute;
 
 
 
-
-
 // "use client";
 
 // import React, { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { usePathname } from "next/navigation";
-// import { useSearchParams } from "next/navigation";
+// import { useRouter, usePathname } from "next/navigation";
 
 // const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 //   const [isLoading, setIsLoading] = useState(true);
 //   const router = useRouter();
-//   const pathname = usePathname(); // Получаем текущий путь страницы
-//   const searchParams = useSearchParams(); // Получаем параметры запроса
+//   const pathname = usePathname();
 
 //   useEffect(() => {
 //     const token = localStorage.getItem("token");
 
-//     console.log("Token:", token); // Логируем токен для отладки
+//     if (pathname === "/login") {
+//       setIsLoading(false);
+//       return;
+//     }
 
 //     if (!token) {
-//       // Если токен отсутствует, показываем страницу логина
-//       console.log("Redirecting to login...");
-//       // Если это не страница логина, выполняем редирект
-//       if (pathname !== "/login") {
-//         router.push("/login");
-//       }
+//       router.push("/login");
 //     } else {
-//       setIsLoading(false); // Токен есть — продолжаем рендерить дочерние компоненты
+//       setIsLoading(false);
 //     }
 //   }, [router, pathname]);
 
 //   if (isLoading) {
-//     return <div>Loading...</div>; // Показать "Loading..." пока идет проверка токена
+//     return <div>Loading...</div>; 
 //   }
 
-//   return <>{children}</>; // Если токен есть, рендерим дочерние компоненты
+//   return <>{children}</>;
 // };
 
 // export default ProtectedRoute;
-
-
-
-
-
-
-
-
-
