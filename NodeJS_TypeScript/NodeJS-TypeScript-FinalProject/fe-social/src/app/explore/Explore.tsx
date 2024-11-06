@@ -1,7 +1,8 @@
+// src/app/explore/Explore.tsx
 "use client"; // Убедитесь, что это клиентский код
 
 import { useState, useEffect } from "react";
-import { $api } from "../api/api"; // Убедитесь, что у вас настроен правильный $api
+import { $api } from "../api/api"; // Убедитесь, что $api настроен правильно
 
 // Тип для поста
 interface Post {
@@ -12,7 +13,7 @@ interface Post {
   createdAt: string;
 }
 
-const PostsList = () => {
+const Explore: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]); // Состояние для хранения постов
   const [loading, setLoading] = useState<boolean>(true); // Состояние для загрузки
   const [error, setError] = useState<string | null>(null); // Состояние для ошибки
@@ -21,9 +22,7 @@ const PostsList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        console.log("Отправка запроса на сервер...");
         const response = await $api.get("/api/post"); // Запрос на сервер для получения постов
-        console.log("Ответ от сервера:", response.data); // Логируем ответ от сервера
         setPosts(response.data); // Устанавливаем полученные посты в состояние
       } catch (err: any) {
         console.error("Ошибка при загрузке постов:", err); // Логируем ошибку
@@ -38,7 +37,7 @@ const PostsList = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-center text-2xl font-bold mb-6">Все посты</h1>
+      <h1 className="text-center text-2xl font-bold mb-6">Explore Posts</h1>
       {loading ? (
         <p>Загрузка...</p> // Показываем индикатор загрузки
       ) : error ? (
@@ -70,4 +69,4 @@ const PostsList = () => {
   );
 };
 
-export default PostsList;
+export default Explore;

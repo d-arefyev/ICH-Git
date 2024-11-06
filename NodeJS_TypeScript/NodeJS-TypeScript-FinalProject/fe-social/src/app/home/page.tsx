@@ -2,6 +2,13 @@
 
 import Home from "./Home";
 
-export default function HomePage() {
-  return <Home />;
-}
+const HomePage: React.FC = () => {
+  return (
+    <div className="min-h-screen">
+      {/* Страница Explore */}
+      <Home />
+    </div>
+  );
+};
+
+export default HomePage;

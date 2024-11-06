@@ -1,27 +1,27 @@
 // src/app/components/ProtectedRoute.tsx
-"use client"; // Это клиентский компонент
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true); // Состояние для загрузки, пока проверяем токен
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Проверяем наличие токена в localStorage
+    const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login"); // Перенаправляем на страницу логина, если токена нет
+      router.push("/login");
     } else {
-      setIsLoading(false); // Если токен найден, продолжаем рендерить приложение
+      setIsLoading(false);
     }
   }, [router]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Пока проверяем токен, показываем сообщение о загрузке
+    return <div>Loading...</div>;
   }
 
-  return <>{children}</>; // Если токен есть, рендерим children (контент)
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
