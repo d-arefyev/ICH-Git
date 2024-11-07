@@ -1,66 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { $api } from "../api/api";
+import PostsList from "../molecules/PostsList";
 
-type Post = {
-  _id: string;
-  user_id: string;
-  image_url: string;
-  caption: string;
-  likes_count: number;
-  comments_count: number;
-  created_at: string;
-  __v: number;
-};
-
-export const PostsList = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  useEffect(() => {
-    const getPosts = () => {
-      $api.get("/post/all").then((res) => setPosts(res.data));
-    };
-    getPosts();
-  }, []);
-
+export const HomePage = () => {
   return (
-    <div className="max-w-[848px] ml-[324px] mt-[60px]">
-      <div className="max-w-[848px] mx-auto grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-x-[40px] gap-y-[24px]">
-        {posts.length > 0 ? (
-          posts.map((item: Post) => (
-            <PostItem
-              key={item._id}
-              img={item.image_url}
-              caption={item.caption}
-            />
-          ))
-        ) : (
-          <span>No Posts</span>
-        )}
-      </div>
-    </div>
-  );
-};
+    <div className="max-w-[848px] ml-[324px] mt-[60px] mb-[70px]">
+      <PostsList />
 
-const PostItem = ({ caption, img }: { caption: string; img: string }) => {
-  return (
-    <div>
-      <div className="bg-white shadow-md overflow-hidden w-[404px] h-[716px]">
+      {/* Check icon" */}
+      <div className="flex flex-col justify-center items-center mt-[40px]">
         <Image
-          src={img}
-          alt={caption}
-          width={404}
-          height={716}
-          layout="responsive"
-          objectFit="cover"
-          className="rounded-[4px]"
+          src="/post-check.png"
+          alt="Check updates"
+          width={82}
+          height={82}
+          className="flex justify-center items-center"
+          priority
         />
-        <span className="p-4 text-sm text-gray-700">{caption}</span>
+        <span className="mt-[10px]">You've seen all the updates</span>
+        <span className="text-[12px] text-color-dark-gray">
+          You have viewed all new publications
+        </span>
       </div>
     </div>
   );
 };
 
-export default PostsList;
+export default HomePage;
