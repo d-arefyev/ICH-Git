@@ -1,71 +1,64 @@
-"use client"; // Убедитесь, что это клиентский код
+"use client";
 
-import { useState, useEffect } from "react";
-import { $api } from "../api/api"; // Убедитесь, что у вас настроен правильный $api
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { $api } from "../api/api";
 
-// Тип для поста
-interface Post {
+type Post = {
   _id: string;
-  title: string;
-  content: string;
-  image_url?: string; // Возможно, у постов может быть изображение
-  createdAt: string;
-}
+  user_id: string;
+  image_url: string;
+  caption: string;
+  likes_count: number;
+  comments_count: number;
+  created_at: string;
+  __v: number;
+};
 
-const PostsList = () => {
-  const [posts, setPosts] = useState<Post[]>([]); // Состояние для хранения постов
-  const [loading, setLoading] = useState<boolean>(true); // Состояние для загрузки
-  const [error, setError] = useState<string | null>(null); // Состояние для ошибки
+export const PostsList = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
 
-  // Функция для загрузки постов с сервера
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        console.log("Отправка запроса на сервер...");
-        const response = await $api.get("/api/post"); // Запрос на сервер для получения постов
-        console.log("Ответ от сервера:", response.data); // Логируем ответ от сервера
-        setPosts(response.data); // Устанавливаем полученные посты в состояние
-      } catch (err: any) {
-        console.error("Ошибка при загрузке постов:", err); // Логируем ошибку
-        setError("Ошибка при загрузке постов"); // Обрабатываем ошибку
-      } finally {
-        setLoading(false); // Отключаем индикатор загрузки
-      }
+    const getPosts = () => {
+      $api.get("/post/all").then((res) => setPosts(res.data));
     };
-
-    fetchPosts(); // Загружаем посты при монтировании компонента
+    getPosts();
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-center text-2xl font-bold mb-6">Все посты</h1>
-      {loading ? (
-        <p>Загрузка...</p> // Показываем индикатор загрузки
-      ) : error ? (
-        <p className="text-red-500">{error}</p> // Показываем ошибку
-      ) : posts.length === 0 ? (
-        <p>Нет постов для отображения.</p> // Если нет постов
-      ) : (
-        <div className="space-y-4">
-          {posts.map((post) => (
-            <div key={post._id} className="border p-4 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold">{post.title}</h2>
-              <p className="text-gray-700">{post.content}</p>
-              
-              {/* Если есть изображение, показываем его */}
-              {post.image_url && (
-                <div className="mt-4">
-                  <img src={post.image_url} alt="Post Image" className="w-full h-auto" />
-                </div>
-              )}
+    <div className="max-w-[848px] ml-[324px] mt-[60px]">
+      <div className="max-w-[848px] mx-auto grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-x-[40px] gap-y-[24px]">
+        {posts.length > 0 ? (
+          posts.map((item: Post) => (
+            <PostItem
+              key={item._id}
+              img={item.image_url}
+              caption={item.caption}
+            />
+          ))
+        ) : (
+          <span>No Posts</span>
+        )}
+      </div>
+    </div>
+  );
+};
 
-              <span className="text-sm text-gray-500">
-                {new Date(post.createdAt).toLocaleDateString()}
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
+const PostItem = ({ caption, img }: { caption: string; img: string }) => {
+  return (
+    <div>
+      <div className="bg-white shadow-md overflow-hidden w-[404px] h-[716px]">
+        <Image
+          src={img}
+          alt={caption}
+          width={404}
+          height={716}
+          layout="responsive"
+          objectFit="cover"
+          className="rounded-[4px]"
+        />
+        <span className="p-4 text-sm text-gray-700">{caption}</span>
+      </div>
     </div>
   );
 };

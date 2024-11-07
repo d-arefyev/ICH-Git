@@ -1,7 +1,7 @@
 // 1-st V
 import axios from "axios";
 
-const base_url = "http://localhost:5005/api";
+const base_url = "http://localhost:5005/api/";
 
 export const $api = axios.create({ baseURL: base_url });
 
@@ -10,6 +10,7 @@ $api.interceptors.request.use((config) => {
   config.headers.Authorization = token ? `Bearer ${token}` : "";
   return config;
 });
+
 
 
 // 2-nd V
@@ -26,6 +27,25 @@ $api.interceptors.request.use((config) => {
 //   config.headers.Authorization = token ? `Bearer ${token}` : "";
 //   return config;
 // });
+
+
+
+// // 3-d V
+// import axios from "axios";
+
+// // Получаем базовый URL из переменной окружения
+// const base_url = process.env.NEXT_PUBLIC_API_URL;
+
+// export const $api = axios.create({ baseURL: base_url });
+
+// $api.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("token"); // Получаем токен из localStorage
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`; // Добавляем токен в заголовки запроса
+//   }
+//   return config;
+// });
+
 
 
 // // api/api.ts
