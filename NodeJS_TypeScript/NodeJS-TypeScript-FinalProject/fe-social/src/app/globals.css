@@ -15,6 +15,9 @@
   --color-light: #FFFFFF;
   --color-link: #00376B;
   
+  --container-width: 975px;
+  --container-padding-x: 15px;
+
   --transition-duration: 0.2s;
 }
 
@@ -24,6 +27,14 @@
     --foreground: #ededed;
   }
 } */
+
+.globalContainer {
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+  margin-left: 348px;
+  margin-right: 117px;
+}
 
 body,
 html {

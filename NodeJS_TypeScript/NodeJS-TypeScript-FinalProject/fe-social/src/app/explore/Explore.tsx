@@ -36,7 +36,7 @@ const Explore: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="globalContainer bg-slate-300">
       <h1 className="text-center text-2xl font-bold mb-6">Explore Posts</h1>
       {loading ? (
         <p>Загрузка...</p> // Показываем индикатор загрузки

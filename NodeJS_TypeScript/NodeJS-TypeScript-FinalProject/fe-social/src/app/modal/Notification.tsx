@@ -15,7 +15,7 @@ const Notification: React.FC<NotificationProps> = ({
 }) => {
   useEffect(() => {
     const timer = setTimeout(() => onClose(), duration);
-    return () => clearTimeout(timer);  // Очистка таймера при размонтировании
+    return () => clearTimeout(timer);
   }, [onClose, duration]);
 
   const typeClasses = {

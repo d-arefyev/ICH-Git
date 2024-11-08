@@ -5,7 +5,8 @@ import PostsList from "../molecules/PostsList";
 
 export const HomePage = () => {
   return (
-    <div className="max-w-[848px] ml-[324px] mt-[60px] mb-[70px]">
+    <div className="max-w-[848px] ml-[324px] mt-[60px] mb-[70px] mr-[15px]">
+    {/* <div className="globalContainer bg-slate-300"> */}
       <PostsList />
 
       {/* Check icon" */}
