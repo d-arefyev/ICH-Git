@@ -2,7 +2,12 @@
 import Login from "./Login";
 
 const LoginPage = () => {
-  return <Login />;
+  return (
+    <div className="">
+     <Login />   
+    </div>
+
+  );
 };
 
 export default LoginPage;

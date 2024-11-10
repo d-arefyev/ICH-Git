@@ -5,7 +5,8 @@ interface SideBarButtonProps {
   label: string;
   Icon: React.ReactNode;
   HoverIcon: React.ReactNode;
-  onClick: () => void; // Убедитесь, что onClick типизирован правильно
+  onClick: () => void;
+  isActive?: boolean;
 }
 
 const SideBarButton: React.FC<SideBarButtonProps> = ({
@@ -13,18 +14,27 @@ const SideBarButton: React.FC<SideBarButtonProps> = ({
   Icon,
   HoverIcon,
   onClick,
+  isActive = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <button
-      className="flex items-center gap-[8px] p-2 rounded-lg w-full hover:font-bold h-[48px] px-[12px]"
+      className={`flex items-center gap-[8px] p-2 rounded-lg w-full h-[48px] px-[12px] ${
+        isActive ? "font-semibold" : ""
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick} // теперь onClick будет корректно работать
+      onClick={onClick}
     >
-      <span className="w-6 h-6">{isHovered ? HoverIcon : Icon}</span>
-      <span className="ml-[8px]">{label}</span>
+      <span className="w-6 h-6">
+        {isHovered || isActive ? HoverIcon : Icon}
+      </span>
+      <span
+        className={`ml-[8px] ${isHovered || isActive ? "font-semibold" : ""}`}
+      >
+        {label}
+      </span>
     </button>
   );
 };

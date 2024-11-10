@@ -1,72 +1,124 @@
-// src/app/explore/Explore.tsx
-"use client"; // Убедитесь, что это клиентский код
+"use client"
 
-import { useState, useEffect } from "react";
-import { $api } from "../api/api"; // Убедитесь, что $api настроен правильно
+import { useEffect, useState } from "react";
+import { $api } from "../api/api";
+import Image from "next/image";
+// import NoMoreUpdates from "../atoms/NoMoreUpdates";
 
-// Тип для поста
-interface Post {
+type Post = {
   _id: string;
-  title: string;
-  content: string;
-  image_url?: string; // Возможно, у постов может быть изображение
-  createdAt: string;
-}
+  image_url: string;
+};
 
-const Explore: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]); // Состояние для хранения постов
-  const [loading, setLoading] = useState<boolean>(true); // Состояние для загрузки
-  const [error, setError] = useState<string | null>(null); // Состояние для ошибки
+export const Explore = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
 
-  // Функция для загрузки постов с сервера
+  // Получение постов
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await $api.get("/api/post"); // Запрос на сервер для получения постов
-        setPosts(response.data); // Устанавливаем полученные посты в состояние
-      } catch (err: any) {
-        console.error("Ошибка при загрузке постов:", err); // Логируем ошибку
-        setError("Ошибка при загрузке постов"); // Обрабатываем ошибку
-      } finally {
-        setLoading(false); // Отключаем индикатор загрузки
-      }
+    const getPosts = () => {
+      $api.get("/post/all/public").then((res) => {
+        setPosts(res.data);
+      });
     };
 
-    fetchPosts(); // Загружаем посты при монтировании компонента
+    getPosts();
   }, []);
 
   return (
-    <div className="globalContainer bg-slate-300">
-      <h1 className="text-center text-2xl font-bold mb-6">Explore Posts</h1>
-      {loading ? (
-        <p>Загрузка...</p> // Показываем индикатор загрузки
-      ) : error ? (
-        <p className="text-red-500">{error}</p> // Показываем ошибку
-      ) : posts.length === 0 ? (
-        <p>Нет постов для отображения.</p> // Если нет постов
-      ) : (
-        <div className="space-y-4">
-          {posts.map((post) => (
-            <div key={post._id} className="border p-4 rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold">{post.title}</h2>
-              <p className="text-gray-700">{post.content}</p>
-              
-              {/* Если есть изображение, показываем его */}
-              {post.image_url && (
-                <div className="mt-4">
-                  <img src={post.image_url} alt="Post Image" className="w-full h-auto" />
-                </div>
-              )}
-
-              <span className="text-sm text-gray-500">
-                {new Date(post.createdAt).toLocaleDateString()}
-              </span>
+    <div className="globalContainer flex flex-col max-w-[975px] py-[60px]">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-[4px]">
+        {posts.length > 0 ? (
+          posts.map((item: Post, index: number) => (
+            <div
+              key={item._id}
+              className={`
+                ${
+                  index % 6 === 2
+                    ? "row-span-2"
+                    : "h-[316px]"
+                }
+                w-full relative aspect-w-1 aspect-h-1
+              `}
+            >
+              <Image
+                src={item.image_url}
+                alt="Post Image"
+                layout="fill"
+                className="object-cover"
+              />
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <li>No Posts</li>
+        )}
+      </div>
+      {/* <NoMoreUpdates /> */}
     </div>
   );
 };
 
 export default Explore;
+
+
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { $api } from "../api/api";
+// import Image from "next/image";
+// // import NoMoreUpdates from "../atoms/NoMoreUpdates";
+
+// type Post = {
+//   _id: string;
+//   image_url: string;
+// };
+
+// export const Explore = () => {
+//   const [posts, setPosts] = useState<Post[]>([]);
+
+//   // Получение постов
+//   useEffect(() => {
+//     const getPosts = () => {
+//       $api.get("/post/all/public").then((res) => {
+//         setPosts(res.data);
+//       });
+//     };
+
+//     getPosts();
+//   }, []);
+
+//   return (
+//     <div className="globalContainer flex flex-col items-center max-w-[975px]">
+//       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[4px] ">
+//         {posts.length > 0 ? (
+//           posts.map((item: Post, index: number) => (
+//             <div
+//               key={item._id}
+//               className={`
+//             ${
+//               index % 3 === 2 || index % 2 === 3
+//                 ? "row-span-2"
+//                 : "h-[200px] lg:h-[316px]"
+//             }
+//             w-full
+//           `}
+//             >
+//               <Image
+//                 src={item.image_url}
+//                 alt="Post Image"
+//                 width={316}
+//                 height={316}
+//                 className="w-full h-full object-cover"
+//               />
+//             </div>
+//           ))
+//         ) : (
+//           <li>No Posts</li>
+//         )}
+//       </div>
+//       {/* <NoMoreUpdates /> */}
+//     </div>
+//   );
+// };
+
+// export default Explore;

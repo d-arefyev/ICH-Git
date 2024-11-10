@@ -6,9 +6,12 @@ NodeJS TypeScript FinalProject -------------------------------------------------
 Макет
 https://www.figma.com/design/YLRBZlrYStKhG9SeKbkWwC/WebDev%3A-Final-project-(Copy)?node-id=0-1&node-type=canvas
 Бэкэнд
-https://github.com/d-arefyev/be-social
+https://github.com/d-arefyev/be-social-andrey/tree/main
 Фронтэнд
-https://github.com/BytesHouse/fe-social
+https://github.com/d-arefyev/fe-social-andrey
+
+base_url = https://be-social-cxau.onrender.com/api
+
 
 NextJS
 Create project:
@@ -23,6 +26,10 @@ npx tailwindcss init -p
 
 Отслеживание сss
 npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
+
+
+Подключение мессенджера:
+npm i socket.io-client
 
 
 Использование стабильной версии React 18

@@ -18,7 +18,7 @@ const ProtectedWrapper: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const pathname = usePathname();
   const router = useRouter();
-  
+
   const isAuthPage =
     pathname === "/login" ||
     pathname === "/register" ||
@@ -34,11 +34,10 @@ const ProtectedWrapper: React.FC<{ children: React.ReactNode }> = ({
   // Проверка токена при монтировании компонента
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // Проводим проверку на null
     if (token && checkTokenExpiration(token)) {
-      router.push("/login"); // Если токен истек, редиректим на страницу логина
+      router.push("/login");
     } else if (!token) {
-      router.push("/login"); // Если токен отсутствует, редиректим на страницу логина
+      router.push("/login");
     }
   }, [router]);
 
@@ -50,10 +49,16 @@ const ProtectedWrapper: React.FC<{ children: React.ReactNode }> = ({
             <SideBar openOverlay={openOverlay} closeOverlay={closeOverlay} />
           </div>
         )}
-        <div className="flex flex-col min-h-[calc(100vh-158px)] w-full">
-          <main className="flex-grow">{children}</main>
-          {!isAuthPage && <Footer />}
-          {/* Если фон должен быть видим, показываем затемнение */}
+        <div className="">
+          <main className="min-h-[calc(100vh-158px)]">
+          {/* <main className="flex flex-grow justify-center min-h-[calc(100vh-158px)]"> */}
+            {children}
+          </main>
+          {!isAuthPage && (
+            <div className="">
+              <Footer />
+            </div>
+          )}
           {isOverlayVisible && (
             <div
               className="fixed inset-0 w-full h-full bg-black opacity-50"
@@ -67,6 +72,7 @@ const ProtectedWrapper: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export default ProtectedWrapper;
+
 
 
 
@@ -116,7 +122,7 @@ export default ProtectedWrapper;
 //           )}
 //         </div>
 //       </div>
-      
+
 //     </div>
 //   );
 // };

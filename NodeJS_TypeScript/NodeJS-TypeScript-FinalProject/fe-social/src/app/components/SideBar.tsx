@@ -1,3 +1,4 @@
+// src/components/SideBar.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -34,29 +35,43 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
   const [isSubMenuVisible, setSubMenuVisible] = useState<string | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const handleHomeClick = () => router.push("/home");
-  const handleSearchClick = () => {
-    toggleSubMenu("search");
-    openOverlay(); // Включаем темный фон при открытии подменю
+  const [activeButton, setActiveButton] = useState<string>("home");
+
+  const handleHomeClick = () => {
+    setActiveButton("home");
+    router.push("/home");
   };
-  const handleExploreClick = () => router.push("/explore");
+  const handleSearchClick = () => {
+    setActiveButton("search");
+    toggleSubMenu("search");
+    openOverlay();
+  };
+  const handleExploreClick = () => {
+    setActiveButton("explore");
+    router.push("/explore");
+  };
   const handleMessagesClick = () => {
+    setActiveButton("messages");
     toggleSubMenu("messages");
-    openOverlay(); // Включаем темный фон при открытии подменю
+    openOverlay();
   };
   const handleNotificationsClick = () => {
+    setActiveButton("notifications");
     toggleSubMenu("notifications");
-    openOverlay(); // Включаем темный фон при открытии подменю
+    openOverlay();
   };
   const handleCreateClick = () => setModalVisible(true);
-  const handleProfileClick = () => router.push("/profile");
+  const handleProfileClick = () => {
+    setActiveButton("profile");
+    router.push("/profile");
+  };
 
   const toggleSubMenu = (menu: string) => {
     setSubMenuVisible((prev) => (prev === menu ? null : menu));
   };
 
   return (
-    <div className="absolute left-0 top-0 flex flex-col h-[calc(100%-158px)] py-[38px] px-[12px] w-[244px] bg-color-light border-r-[1px] border-color-gray z-50">
+    <div className="absolute left-0 top-0 flex flex-col min-h-[calc(100%-158px)] py-[38px] px-[12px] w-[244px] bg-color-light border-r-[1px] border-color-gray z-[10000]">
       <div className="w-[90px] ml-[16px] mb-[38px]">
         <Logo />
       </div>
@@ -66,12 +81,14 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
           Icon={<HomeIcon />}
           HoverIcon={<HomeIconHover />}
           onClick={handleHomeClick}
+          isActive={activeButton === "home"}
         />
         <SideBarButton
           label="Search"
           Icon={<SearchIcon />}
           HoverIcon={<SearchIconHover />}
           onClick={handleSearchClick}
+          isActive={activeButton === "search"}
         />
         {isSubMenuVisible === "search" && <SubMenuSearch onClose={() => {setSubMenuVisible(null); closeOverlay();}} />}
 
@@ -80,6 +97,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
           Icon={<ExploreIcon />}
           HoverIcon={<ExploreIconHover />}
           onClick={handleExploreClick}
+          isActive={activeButton === "explore"}
         />
 
         <SideBarButton
@@ -87,6 +105,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
           Icon={<MessagesIcon />}
           HoverIcon={<MessagesIconHover />}
           onClick={handleMessagesClick}
+          isActive={activeButton === "messages"}
         />
         {isSubMenuVisible === "messages" && <SubMenuMessages onClose={() => {setSubMenuVisible(null); closeOverlay();}} />}
 
@@ -95,6 +114,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
           Icon={<NotificationsIcon />}
           HoverIcon={<NotificationsIconHover />}
           onClick={handleNotificationsClick}
+          isActive={activeButton === "notifications"}
         />
         {isSubMenuVisible === "notifications" && <SubMenuNotifications onClose={() => {setSubMenuVisible(null); closeOverlay();}} />}
 
@@ -112,6 +132,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
           Icon={<ProfilIcon />}
           HoverIcon={<ProfilIconHover />}
           onClick={handleProfileClick}
+          isActive={activeButton === "profile"}
         />
       </div>
     </div>
@@ -119,6 +140,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
 };
 
 export default SideBar;
+
 
 
 

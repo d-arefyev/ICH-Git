@@ -1,33 +1,33 @@
-import React, { useState } from "react";
-import axios from "axios";
+"use client";
 
+import { $api } from "../api/api";
+
+// Компонент FollowButton для кнопки следования
 interface FollowButtonProps {
+  isFollow: boolean;
   userId: string;
+  targetUserId: string;
 }
 
-const FollowButton: React.FC<FollowButtonProps> = ({ userId }) => {
-  const [isFollowing, setIsFollowing] = useState(false);
-
-  const handleFollowToggle = async () => {
-    try {
-      if (isFollowing) {
-        // Отписка
-        await axios.delete(`/api/follow/unfollow/${userId}`);
-      } else {
-        // Подписка
-        await axios.post(`/api/follow/${userId}`);
-      }
-      setIsFollowing(!isFollowing);
-    } catch (error) {
-      console.error("Ошибка при подписке/отписке:", error);
+function FollowButton({ isFollow, userId, targetUserId }: FollowButtonProps) {
+  const handleFollow = () => {
+    if (!isFollow) {
+      $api.post(`/follow/${userId}/follow/${targetUserId}`);
+    } else {
+      $api.delete(`/follow/${userId}/unfollow/${targetUserId}`);
     }
   };
 
   return (
-    <button onClick={handleFollowToggle} className="ml-auto bg-blue-500 text-white px-4 py-2 rounded-md">
-      {isFollowing ? "Отписаться" : "Подписаться"}
+    <button
+      onClick={handleFollow}
+      className={`${
+        isFollow ? "text-color-accent" : "text-color-accent"
+      } font-semibold text-[12px] hover:text-color-dark ml-[6px]`}
+    >
+      {isFollow ? "Unfollow" : "Follow"}
     </button>
   );
-};
+}
 
 export default FollowButton;

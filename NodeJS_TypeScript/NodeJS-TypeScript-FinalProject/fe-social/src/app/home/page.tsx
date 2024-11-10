@@ -4,8 +4,7 @@ import Home from "./Home";
 
 const HomePage: React.FC = () => {
   return (
-    <div className="min-h-screen">
-      {/* Страница Explore */}
+    <div className="">
       <Home />
     </div>
   );
