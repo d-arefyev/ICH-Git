@@ -51,7 +51,6 @@ const ProtectedWrapper: React.FC<{ children: React.ReactNode }> = ({
         )}
         <div className="">
           <main className="min-h-[calc(100vh-158px)]">
-          {/* <main className="flex flex-grow justify-center min-h-[calc(100vh-158px)]"> */}
             {children}
           </main>
           {!isAuthPage && (

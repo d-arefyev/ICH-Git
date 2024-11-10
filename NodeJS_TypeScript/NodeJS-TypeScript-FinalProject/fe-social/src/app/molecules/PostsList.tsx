@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { $api } from "../api/api";
+import { $api } from "../api/api"; // Уже настроен для работы с токеном
 import { parseData } from "../helpers/parseData";
 import Image from "next/image";
 import FollowButton from "../atoms/FollowButton";
@@ -170,7 +170,7 @@ const PostItem = ({ item, isFollow }: ItemProps) => {
         alt="Post Image"
         width={403}
         height={505}
-        className="w-full max-h-[505px] object-cover rounded-[4px]"
+        className="w-full min-h-[505px] object-cover rounded-[4px] object-cover"
       />
       <div className="flex flex-col my-[10px] gap-[8px]">
         <div className="flex items-center gap-[14px]">

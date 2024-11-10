@@ -1,15 +1,14 @@
-// src/app/user/EditProfile.tsx
 "use client";
 
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { $api } from "../api/api";
+import ProfileImageUploader from "../molecules/ProfileImageUploder"; // Убедитесь, что импорт верный
 
 const EditProfile = () => {
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [website, setWebsite] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageUrl, setProfileImageUrl] = useState<string>("/default-profile.png");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,31 +19,21 @@ const EditProfile = () => {
   const fetchUserProfile = async () => {
     try {
       const userId = localStorage.getItem("userId");
+      console.log("userId:", userId); // Логируем значение userId
+      if (!userId) {
+        setError("User ID not found");
+        return;
+      }
       const response = await $api.get(`/api/user/${userId}`);
       const userData = response.data;
-      
+
       setUsername(userData.username);
       setBio(userData.bio);
       setWebsite(userData.website);
       setProfileImageUrl(userData.profile_image || "/default-profile.png");
     } catch (error) {
       setError("Не удалось загрузить профиль");
-    }
-  };
-
-  // Загрузка нового изображения профиля
-  const handleImageUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("profile_image", file);
-
-    try {
-      const response = await $api.put("/api/user/current", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setProfileImageUrl(response.data.profile_image); // URL загруженного изображения
-      setError("");
-    } catch (error) {
-      setError("Ошибка при загрузке изображения");
+      console.error("Ошибка получения профиля:", error);
     }
   };
 
@@ -54,26 +43,26 @@ const EditProfile = () => {
     setIsLoading(true);
 
     try {
+      // Отправка данных профиля, включая URL изображения
       await $api.put("/api/user/current", {
         username,
         bio,
         website,
+        profile_image: profileImageUrl, // используем URL загруженного изображения
       });
-      router.refresh(); // обновляем страницу
+      router.refresh(); // обновляем страницу после успешного обновления
+      setError(""); // сброс ошибки при успешном обновлении
     } catch (error) {
+      console.error("Ошибка обновления профиля:", error);
       setError("Ошибка обновления профиля");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Обработчик для выбора файла изображения
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setProfileImage(file);
-      handleImageUpload(file); // загружаем файл сразу после выбора
-    }
+  // Используется ProfileImageUploader для загрузки изображения и обновления URL
+  const handleImageUploadSuccess = (url: string) => {
+    setProfileImageUrl(url); // Устанавливаем URL нового изображения в состояние
   };
 
   useEffect(() => {
@@ -92,20 +81,13 @@ const EditProfile = () => {
         />
         <div>
           <p className="text-lg font-semibold">{username}</p>
-          <p className="text-gray-600">• Гарантия помощи с трудоустройством в ведущие IT-компании</p>
         </div>
-        <label className="cursor-pointer bg-blue-500 text-white px-3 py-1 rounded-lg text-sm font-medium">
-          New photo
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </label>
       </div>
 
-      <form onSubmit={handleUpdateProfile} className="flex flex-col gap-4">
+      {/* Включаем компонент ProfileImageUploader */}
+      <ProfileImageUploader onUploadSuccess={handleImageUploadSuccess} />
+
+      <form onSubmit={handleUpdateProfile} className="flex flex-col gap-4 mt-4">
         <div>
           <label className="block font-medium text-gray-700">Username</label>
           <input

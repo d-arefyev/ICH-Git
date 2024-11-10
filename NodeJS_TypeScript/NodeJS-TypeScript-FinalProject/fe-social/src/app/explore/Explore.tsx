@@ -49,7 +49,7 @@ export const Explore = () => {
             </div>
           ))
         ) : (
-          <li>No Posts</li>
+          <span>No Posts</span>
         )}
       </div>
       {/* <NoMoreUpdates /> */}

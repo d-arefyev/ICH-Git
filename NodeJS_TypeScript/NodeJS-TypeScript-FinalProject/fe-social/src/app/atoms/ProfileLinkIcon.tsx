@@ -3,11 +3,11 @@
 import Link from "next/link";
 import React from "react";
 
-interface ProfileLinkProps {
+interface ProfileLinkIconProps {
   href: string;
 }
 
-const ProfileLink: React.FC<ProfileLinkProps> = ({ href }) => {
+const ProfileLinkIcon: React.FC<ProfileLinkIconProps> = ({ href }) => {
   return (
     <Link href={href} >
       <svg
@@ -33,4 +33,4 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ href }) => {
   );
 };
 
-export default ProfileLink;
+export default ProfileLinkIcon;

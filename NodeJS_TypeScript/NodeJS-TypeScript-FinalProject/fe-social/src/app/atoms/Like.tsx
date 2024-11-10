@@ -20,7 +20,11 @@ const Like: React.FC<LikeProps> = ({ postId, userId, onLikesCountChange }) => {
         setLikesCount(response.data.likesCount);
         setLiked(response.data.likedByUser);
       } catch (error) {
-        console.error("Ошибка получения лайков:", error);
+        if (error instanceof Error) {
+          console.error("Ошибка получения лайков:", error.message);
+        } else {
+          console.error("Неизвестная ошибка при изменении состояния лайка:", error);
+        }
       }
     };
 

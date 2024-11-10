@@ -64,6 +64,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
   const handleProfileClick = () => {
     setActiveButton("profile");
     router.push("/profile");
+    // router.push("/profile/${userId}");
   };
 
   const toggleSubMenu = (menu: string) => {
@@ -124,7 +125,7 @@ const SideBar: React.FC<SideBarProps> = ({ openOverlay, closeOverlay }) => {
           HoverIcon={<CreateIconHover />}
           onClick={handleCreateClick}
         />
-        {isModalVisible && <ModalCreatePost onClose={() => setModalVisible(false)} />}
+        {isModalVisible && <ModalCreatePost onClose={() => setModalVisible(false)} profileImage={""} username={""} />}
       </div>
       <div className="mt-[50px]">
         <SideBarButton

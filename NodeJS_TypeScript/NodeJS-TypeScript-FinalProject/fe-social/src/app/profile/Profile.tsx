@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { $api } from "../api/api";
 import Link from "next/link";
-import ProfileLink from "../atoms/ProfileLink";
+import ProfileLinkIcon from "../atoms/ProfileLinkIcon";
 
 interface UserProfile {
   _id: string;
@@ -95,7 +95,7 @@ const Profile: React.FC<ProfileProps> = ({ userId }) => {
             href="#"
             className="flex items-center text-[14px] font-semibold text-[#00376B]"
           >
-            <ProfileLink href="#" />
+            <ProfileLinkIcon href="#" />
             <span className="ml-[4px]">web-site</span>
           </Link>
         </div>

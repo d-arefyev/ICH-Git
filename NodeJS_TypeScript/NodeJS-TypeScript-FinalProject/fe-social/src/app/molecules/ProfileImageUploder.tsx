@@ -3,23 +3,30 @@
 import { useState } from "react";
 import { $api } from "../api/api";
 
-export const ProfileImageUploader = () => {
-  const [file, setFile] = useState<File | null>(null);
+type ProfileImageUploaderProps = {
+  onSuccess: (url: string) => void; // Новый проп
+};
+
+const ProfileImageUploader = ({ onSuccess }: ProfileImageUploaderProps) => {
+  const [file, setFile] = useState<File>();
   const [filePath, setFilePath] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!file) {
-      return;
-    }
+    if (!file) return;
 
     const formData = new FormData();
     formData.append("image", file);
 
-    $api.post("/post", formData)
-      .then((res) => setFilePath(res.data.url))
-      .catch((error) => console.error("Error uploading image:", error));
+    try {
+      const response = await $api.post("/post", formData);
+      const imageUrl = response.data.url;
+      setFilePath(imageUrl);
+      onSuccess(imageUrl); // Вызов onSuccess для обновления URL
+    } catch (error) {
+      console.error("Ошибка загрузки изображения:", error);
+    }
   };
 
   return (
@@ -27,7 +34,7 @@ export const ProfileImageUploader = () => {
       <input
         required
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setFile(e.target.files ? e.target.files[0] : null)
+          setFile(e.target.files ? e.target.files[0] : undefined)
         }
         type="file"
         accept="image/*"
@@ -38,17 +45,20 @@ export const ProfileImageUploader = () => {
   );
 };
 
+export default ProfileImageUploader;
+
+
 
 // "use client"
 
 // import { useState } from "react";
 // import { $api } from "../api/api";
 
-// export const ProfileImageUploder = () => {
+// const ProfileImageUploder = () => {
 //   const [file, setFile] = useState<File>();
 //   const [filePath, setfilePath] = useState("");
 
-//   const handleSubmit = (e) => {
+//   const handleSubmit = (e: { preventDefault: () => void; }) => {
 //     e.preventDefault();
 
 //     if (!file) {
@@ -76,3 +86,5 @@ export const ProfileImageUploader = () => {
 //     </form>
 //   );
 // };
+
+// export default ProfileImageUploder
