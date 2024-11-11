@@ -170,7 +170,7 @@ const PostItem = ({ item, isFollow }: ItemProps) => {
         alt="Post Image"
         width={403}
         height={505}
-        className="w-full min-h-[505px] object-cover rounded-[4px] object-cover"
+        className="w-full min-h-[505px] object-cover rounded-[4px]"
       />
       <div className="flex flex-col my-[10px] gap-[8px]">
         <div className="flex items-center gap-[14px]">

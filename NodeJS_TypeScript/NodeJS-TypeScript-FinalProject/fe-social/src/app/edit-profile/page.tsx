@@ -1,4 +1,4 @@
-// src/app/user/page.tsx
+// src/app/edit-profile/page.tsx
 import Profile from "./EditProfile";
 
 const ProfilePage = () => {
@@ -10,3 +10,5 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
+

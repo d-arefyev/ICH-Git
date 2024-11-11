@@ -20,7 +20,12 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await $api.post("/auth/login", { email, password });
+
+      // Сохраняем токен и объект пользователя в localStorage
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      // Перенаправляем на главную страницу после успешного логина
       router.push("/home");
     } catch (err: any) {
       const serverMessage = err.response?.data?.message;
@@ -104,24 +109,6 @@ export default Login;
 
 
 
-// import React from 'react'
-
-// const Login = () => {
-//   return (
-//     <div>
-//       <h1>Login Page</h1>
-//     </div>
-//   )
-// }
-
-// export default Login
-
-
-
-
-
-
-// // src/app/login/Login.tsx
 // "use client";
 
 // import { useState } from "react";
@@ -135,7 +122,7 @@ export default Login;
 // import { Logo } from "../atoms/Logo";
 
 // const Login = () => {
-//   const [usernameOrEmail, setUsernameOrEmail] = useState("");
+//   const [email, setEmail] = useState("");
 //   const [password, setPassword] = useState("");
 //   const [error, setError] = useState("");
 //   const router = useRouter();
@@ -143,23 +130,19 @@ export default Login;
 //   const handleSubmit = async (e: React.FormEvent) => {
 //     e.preventDefault();
 //     try {
-//       const response = await $api.post("/auth/login", {
-//         username: usernameOrEmail,
-//         password,
-//       });
+//       const response = await $api.post("/auth/login", { email, password });
 //       localStorage.setItem("token", response.data.token);
-//       router.push("/");
+//       router.push("/home");
 //     } catch (err: any) {
-//       setError(err.response?.data?.error || "Incorrect email or password");
+//       const serverMessage = err.response?.data?.message;
+//       setError(serverMessage || "Incorrect email or password");
 //     }
 //   };
 
 //   return (
 //     <div className="flex justify-center items-start mt-[85px] gap-[32px]">
 //       {/* Picture */}
-//       <div className="">
-//         {" "}
-//         {/* Form */}
+//       <div>
 //         <Image
 //           src="/login-pict.png"
 //           alt="Main picture"
@@ -176,15 +159,12 @@ export default Login;
 //           <div className="mb-[32px] text-center rounded-[1px]">
 //             <Logo />
 //           </div>
-//           <form
-//             onSubmit={handleSubmit}
-//             className="flex flex-col w-full gap-[6px]"
-//           >
+//           <form onSubmit={handleSubmit} className="flex flex-col w-full gap-[6px]">
 //             <Input
-//               type="text"
-//               placeholder="Username or Email"
-//               value={usernameOrEmail}
-//               onChange={(e) => setUsernameOrEmail(e.target.value)}
+//               type="email"
+//               placeholder="Email"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
 //               required
 //             />
 //             <Input
@@ -231,3 +211,9 @@ export default Login;
 // };
 
 // export default Login;
+
+
+
+
+
+

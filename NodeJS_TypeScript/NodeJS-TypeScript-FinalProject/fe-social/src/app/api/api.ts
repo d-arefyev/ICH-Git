@@ -13,7 +13,6 @@ $api.interceptors.request.use((config) => {
 });
 
 
-
 // // 2-nd V
 // import axios from "axios";
 
@@ -28,8 +27,6 @@ $api.interceptors.request.use((config) => {
 //   config.headers.Authorization = token ? `Bearer ${token}` : "";
 //   return config;
 // });
-
-
 
 // // 3-d V
 // import axios from "axios";
@@ -46,8 +43,6 @@ $api.interceptors.request.use((config) => {
 //   }
 //   return config;
 // });
-
-
 
 // // api/api.ts
 
@@ -89,5 +84,3 @@ $api.interceptors.request.use((config) => {
 //     throw new Error('Failed to unfollow user');
 //   }
 // };
-
-

@@ -1,3 +1,5 @@
+// // src/app/profile/Profile.tsx
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -15,31 +17,40 @@ interface UserProfile {
   posts_count: number;
   followers_count: number;
   following_count: number;
+  website?: string;
 }
 
 interface ProfileProps {
-  userId: string; // Идентификатор пользователя, который будет передан через props
+  userId: string;
 }
 
 const Profile: React.FC<ProfileProps> = ({ userId }) => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Функция для получения данных профиля пользователя
+  // Получаем данные из localStorage, если они есть
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUserProfile(JSON.parse(storedUser));
+      setIsLoading(false);
+    } else {
+      getUserProfile();
+    }
+  }, []);
+
+  // Функция для получения данных профиля пользователя с сервера
   const getUserProfile = async () => {
     try {
-      const response = await $api.get(`/user/${userId}`); // Запрос на сервер
-      setUserProfile(response.data); // Сохранение данных в state
+      const response = await $api.get(`/user/${userId}`);
+      setUserProfile(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
-      console.error("Ошибка при получении профиля:", error); // Обработка ошибок
+      console.error("Error getting profile:", error);
     } finally {
-      setIsLoading(false); // Завершаем загрузку
+      setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    getUserProfile(); // Получаем данные профиля при монтировании компонента
-  }, [userId]); // Перезагружаем данные при изменении userId
 
   // Если данные ещё загружаются
   if (isLoading) {
@@ -47,10 +58,10 @@ const Profile: React.FC<ProfileProps> = ({ userId }) => {
   }
 
   return (
-    <div className="profile-container">
+    <div className="">
       {/* Профиль */}
-      <div className="flex gap-8 mb-8">
-        {/* Левая часть - аватар */}  
+      <div className="flex w-full lg:flex-row lg:gap-[85px] sm:flex-col sm:gap-[40px]">
+        {/* Левая часть - аватар */}
         <div className="relative w-[168px] h-[168px]">
           <Image
             src="/ava-b-frame.png"
@@ -82,21 +93,34 @@ const Profile: React.FC<ProfileProps> = ({ userId }) => {
           </div>
 
           {/* Статистика профиля */}
-          <div className="flex gap-[40px]">
-            <div>{userProfile?.posts_count}posts</div>
-            <div>{userProfile?.followers_count}followers</div>
-            <div>{userProfile?.following_count}following</div>
+          <div className="flex">
+            <span className="font-semibold mr-[6px]">
+              {userProfile?.posts_count}
+            </span>{" "}
+            <span className="mr-[40px]">posts</span>
+            <span className="font-semibold mr-[6px]">
+              {userProfile?.followers_count}
+            </span>{" "}
+            <span className="mr-[40px]">followers</span>
+            <span className="font-semibold mr-[6px]">
+              {userProfile?.following_count}
+            </span>{" "}
+            <span className="mr-[40px]">following</span>
           </div>
 
           {/* Описание профиля */}
-          <div className=" text-gray-600">{userProfile?.bio}</div>
-
+          <div className="max-w-sm">
+            <span className="text-[14px] text-gcolor-gray line-clamp-3">
+              {userProfile?.bio || "Write something about yourself..."}
+            </span>
+          </div>
           <Link
-            href="#"
+            href={userProfile?.website || "#"}
             className="flex items-center text-[14px] font-semibold text-[#00376B]"
+            target="_blank"
           >
-            <ProfileLinkIcon href="#" />
-            <span className="ml-[4px]">web-site</span>
+            <ProfileLinkIcon />
+            <span className="block ml-[4px]">web-site</span>
           </Link>
         </div>
       </div>
@@ -105,108 +129,3 @@ const Profile: React.FC<ProfileProps> = ({ userId }) => {
 };
 
 export default Profile;
-
-
-
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import Image from "next/image";
-// import { $api } from "../api/api"; // Импортируем $api для отправки запросов
-// import Link from "next/link";
-
-// interface UserProfile {
-//   _id: string;
-//   username: string;
-//   full_name: string;
-//   bio: string;
-//   profile_image: string;
-//   posts_count: number;
-//   followers_count: number;
-//   following_count: number;
-// }
-
-// interface ProfileProps {
-//   userId: string; // Идентификатор пользователя, который будет передан через props
-// }
-
-// const Profile: React.FC<ProfileProps> = ({ userId }) => {
-//   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-//   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-//   // Функция для получения данных профиля пользователя
-//   const getUserProfile = async () => {
-//     try {
-//       const response = await $api.get(`/user/${userId}`); // Запрос на сервер
-//       setUserProfile(response.data); // Сохранение данных в state
-//     } catch (error) {
-//       console.error("Ошибка при получении профиля:", error); // Обработка ошибок
-//     } finally {
-//       setIsLoading(false); // Завершаем загрузку
-//     }
-//   };
-
-//   useEffect(() => {
-//     getUserProfile(); // Получаем данные профиля при монтировании компонента
-//   }, [userId]); // Перезагружаем данные при изменении userId
-
-//   // Если данные ещё загружаются
-//   if (isLoading) {
-//     return <div>Loading...</div>;
-//   }
-
-//   return (
-//     <div className="profile-container">
-//       {/* Профиль */}
-//       <div className="flex gap-8 mb-8">
-//         {/* Левая часть - аватар */}
-//         <div className="relative">
-//           <Image
-//             src={userProfile?.profile_image || "/default-avatar.png"} // Если нет изображения, показываем дефолтное
-//             alt="Profile Avatar"
-//             width={150}
-//             height={150}
-//             className="w-[150px] h-[150px] rounded-full object-cover"
-//           />
-//           <Image
-//             src="/ava-b-frame.png"
-//             alt="Avatar frame"
-//             width={168}
-//             height={168}
-//             className="absolute top-0 left-0 w-[168px] h-[168px]"
-//           />
-//         </div>
-
-//         {/* Правая часть - данные профиля */}
-//         <div className="flex flex-col justify-between">
-//           <div>
-//             <h2 className="text-xl font-bold">{userProfile?.full_name}</h2>
-//             <p className="text-sm text-gray-500">@{userProfile?.username}</p>
-//             <Link href="/edit-profile">
-//               <button className="mt-4 p-2 bg-blue-500 text-white rounded-md">
-//                 Edit profile
-//               </button>
-//             </Link>
-//           </div>
-
-//           {/* Статистика профиля */}
-//           <div className="flex gap-[40px] mt-4 text-gray-700">
-//             <div>Posts: {userProfile?.posts_count}</div>
-//             <div>Followers: {userProfile?.followers_count}</div>
-//             <div>Following: {userProfile?.following_count}</div>
-//           </div>
-
-//           {/* Описание профиля */}
-//           <div className="mt-4 text-gray-600">{userProfile?.bio}</div>
-
-//           {/* Ссылка на полный профиль */}
-//           <Link href={`/profile/${userProfile?._id}`} className="text-blue-500 mt-2">
-//             View full profile
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Profile;

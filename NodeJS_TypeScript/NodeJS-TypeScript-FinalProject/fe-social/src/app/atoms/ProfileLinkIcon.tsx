@@ -1,15 +1,9 @@
 // atoms/ProfileLink.tsx
 
-import Link from "next/link";
 import React from "react";
 
-interface ProfileLinkIconProps {
-  href: string;
-}
-
-const ProfileLinkIcon: React.FC<ProfileLinkIconProps> = ({ href }) => {
+const ProfileLinkIcon: React.FC = () => {
   return (
-    <Link href={href} >
       <svg
         width="13"
         height="12"
@@ -29,7 +23,6 @@ const ProfileLinkIcon: React.FC<ProfileLinkIconProps> = ({ href }) => {
           strokeLinejoin="round"
         />
       </svg>
-    </Link>
   );
 };
 
