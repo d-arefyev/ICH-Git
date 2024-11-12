@@ -1,31 +1,38 @@
+// ProfileImageUploader
+
+// работает
 "use client";
 
 import { useState } from "react";
 import { $api } from "../api/api";
 
-type ProfileImageUploaderProps = {
-  onSuccess: (url: string) => void; // Новый проп
-};
+// Обновление типов пропсов
+interface ProfileImageUploaderProps {
+  onUploadSuccess: (url: string) => void; // Добавляем проп onUploadSuccess
+}
 
-const ProfileImageUploader = ({ onSuccess }: ProfileImageUploaderProps) => {
-  const [file, setFile] = useState<File>();
-  const [filePath, setFilePath] = useState("");
+const ProfileImageUploader: React.FC<ProfileImageUploaderProps> = ({ onUploadSuccess }) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [filePath, setFilePath] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append("image", file);
 
     try {
-      const response = await $api.post("/post", formData);
+      const response = await $api.post("/post", formData); // Путь для загрузки изображения
       const imageUrl = response.data.url;
       setFilePath(imageUrl);
-      onSuccess(imageUrl); // Вызов onSuccess для обновления URL
-    } catch (error) {
-      console.error("Ошибка загрузки изображения:", error);
+      onUploadSuccess(imageUrl); // Передаем URL изображения в родительский компонент
+    } catch (err) {
+      console.error("Ошибка при загрузке изображения:", err);
+      alert("Ошибка при загрузке изображения");
     }
   };
 
@@ -33,14 +40,12 @@ const ProfileImageUploader = ({ onSuccess }: ProfileImageUploaderProps) => {
     <form onSubmit={handleSubmit}>
       <input
         required
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setFile(e.target.files ? e.target.files[0] : undefined)
-        }
         type="file"
         accept="image/*"
+        onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
       />
       <button type="submit">Отправить картинку</button>
-      <span>URL до картинки: {filePath}</span>
+      {filePath && <span>URL картинки: {filePath}</span>}
     </form>
   );
 };
@@ -49,6 +54,12 @@ export default ProfileImageUploader;
 
 
 
+
+
+
+// // src/molecules/ProfileImageUploader.tsx
+
+// // рабочий исходник
 // "use client"
 
 // import { useState } from "react";

@@ -1,17 +1,18 @@
-"use client";
+"use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { $api } from "../api/api";
 import Image from "next/image";
 import ActionButton from "../atoms/ActionButton";
 import ModalConfirm from "../modal/ModalConfirm";
 import Notification from "../modal/Notification";
 import UploadIcon from "../atoms/UploadIcon";
+import EmojiPicker from "../components/EmojiPicker";
 
 interface ModalCreatePostProps {
   onClose: () => void;
-  profileImage: string; // URL изображения профиля пользователя
-  username: string;     // Имя пользователя
+  profileImage: string; 
+  username: string;
 }
 
 const ModalCreatePost: React.FC<ModalCreatePostProps> = ({
@@ -23,10 +24,31 @@ const ModalCreatePost: React.FC<ModalCreatePostProps> = ({
   const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [userProfile, setUserProfile] = useState<{
+    username: string;
+    profile_image: string;
+  } | null>(null);
   const [notification, setNotification] = useState<{
     message: string;
     type: "success" | "error";
   } | null>(null);
+
+  // Извлекаем данные пользователя из localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserProfile({
+        username: user.username,
+        profile_image: user.profile_image,
+      });
+    }
+  }, []);
+
+  // Function to handle emoji click
+  const handleEmojiClick = (emoji: string) => {
+    setContent(content + emoji);
+  };
 
   const handlePostSubmit = async () => {
     if (!content || !file) {
@@ -130,14 +152,16 @@ const ModalCreatePost: React.FC<ModalCreatePostProps> = ({
                   className="w-full h-full"
                 />
                 <Image
-                  src={profileImage}
-                  alt="avatar"
-                  width={1}
-                  height={1}
+                  src={userProfile?.profile_image || "/default-avatar.png"}
+                  alt="Profile Avatar"
+                  width={24}
+                  height={24}
                   className="absolute inset-0 w-[26px] h-[26px] m-auto border bg-color-gray rounded-full"
                 />
               </div>
-              <span className="text-[14px] font-semibold ml-[10px]">{username || "username"}</span>
+              <span className="text-[14px] font-semibold ml-[10px]">
+                {userProfile?.username || "username"}
+              </span>
               <button
                 onClick={() => setShowConfirmModal(true)}
                 className="text-color-dark-gray hover:text-color-accent absolute right-[16px]"
@@ -153,17 +177,15 @@ const ModalCreatePost: React.FC<ModalCreatePostProps> = ({
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Что нового сегодня?"
                 maxLength={1000}
-                className="w-full h-full p-2 border-b-[1px] border-color-gray resize-none mb-[8px]"
+                className="w-full p-[16px] border-b-[1px] border-color-gray resize-none mb-[8px] flex-grow"
               />
               <div className="text-right text-[12px] text-color-dark-gray mr-[16px] placeholder:text-color-dark-gray">
                 {content.length}/1000
               </div>
 
               {/* Emoji Section */}
-              <div className="flex gap-2 mb-[16px] ml-[16px]">
-                <span role="img" aria-label="smile">😊</span>
-                <span role="img" aria-label="heart">❤️</span>
-                <span role="img" aria-label="thumbs-up">👍</span>
+              <div className="flex flex-wrap gap-2 p-[12px]">
+                <EmojiPicker onEmojiClick={handleEmojiClick} />
               </div>
             </div>
           </div>
@@ -206,9 +228,15 @@ export default ModalCreatePost;
 
 // interface ModalCreatePostProps {
 //   onClose: () => void;
+//   profileImage: string; // URL изображения профиля пользователя
+//   username: string;     // Имя пользователя
 // }
 
-// const ModalCreatePost: React.FC<ModalCreatePostProps> = ({ onClose }) => {
+// const ModalCreatePost: React.FC<ModalCreatePostProps> = ({
+//   onClose,
+//   profileImage,
+//   username,
+// }) => {
 //   const [file, setFile] = useState<File | null>(null);
 //   const [content, setContent] = useState<string>("");
 //   const [loading, setLoading] = useState<boolean>(false);
@@ -320,14 +348,14 @@ export default ModalCreatePost;
 //                   className="w-full h-full"
 //                 />
 //                 <Image
-//                   src={item.profile_image}
+//                   src={profileImage}
 //                   alt="avatar"
 //                   width={1}
 //                   height={1}
 //                   className="absolute inset-0 w-[26px] h-[26px] m-auto border bg-color-gray rounded-full"
 //                 />
 //               </div>
-//               <span className="text-[14px] font-semibold">User</span>
+//               <span className="text-[14px] font-semibold ml-[10px]">{username || "username"}</span>
 //               <button
 //                 onClick={() => setShowConfirmModal(true)}
 //                 className="text-color-dark-gray hover:text-color-accent absolute right-[16px]"
@@ -351,21 +379,16 @@ export default ModalCreatePost;
 
 //               {/* Emoji Section */}
 //               <div className="flex gap-2 mb-[16px] ml-[16px]">
-//                 <span role="img" aria-label="smile">
-//                   😊
-//                 </span>
-//                 <span role="img" aria-label="heart">
-//                   ❤️
-//                 </span>
-//                 <span role="img" aria-label="thumbs-up">
-//                   👍
-//                 </span>
+//                 <span role="img" aria-label="smile">😊</span>
+//                 <span role="img" aria-label="heart">❤️</span>
+//                 <span role="img" aria-label="thumbs-up">👍</span>
 //               </div>
 //             </div>
 //           </div>
 //         </div>
 //       </div>
 
+//       {/* Confirm Exit Modal */}
 //       {showConfirmModal && (
 //         <ModalConfirm
 //           message="Unpublish? If you exit, your changes will not be saved."
@@ -374,6 +397,7 @@ export default ModalCreatePost;
 //         />
 //       )}
 
+//       {/* Notification Modal */}
 //       {notification && (
 //         <Notification
 //           message={notification.message}

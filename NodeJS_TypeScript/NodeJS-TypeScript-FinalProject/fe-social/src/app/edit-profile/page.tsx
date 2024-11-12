@@ -1,10 +1,10 @@
 // src/app/edit-profile/page.tsx
-import Profile from "./EditProfile";
+import EditProfile from "./EditProfile";
 
 const ProfilePage = () => {
   return (
     <div className="">
-      <Profile />
+      <EditProfile />
     </div>
   );
 };
