@@ -1,4 +1,4 @@
-export const parseData = (date: string) => {
+const parseData = (date: string) => {
   if (!date) return "N/A";
   const parsedDate = new Date(date);
   if (isNaN(+parsedDate)) return "Invalid Date";
@@ -27,3 +27,4 @@ export const parseData = (date: string) => {
     return `${diffYears} year${diffYears !== 1 ? "s" : ""}`;
   }
 };
+export default parseData;
